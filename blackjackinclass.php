@@ -82,10 +82,10 @@ class Blackjack
 
     public function play()
     {
-        echo "딜러의 카드: " . $this->getCardString($this->dealerHand[0]) . "\n";
+        echo "딜러의 카드 중 하나만 오픈: " . $this->getCardString($this->dealerHand[0]) . "\n";
         echo "당신의 카드: " . $this->getHandString($this->playerHand) . "\n";
         while (true) {
-            echo "다시뽑기(1) or 결과보기(2)? ";
+            echo "다시뽑기(1) or 결과보기(2)? 종료(0)?";
             $input = intval(trim(fgets(STDIN)));
             if ($input == 1) {
                 $this->playerHand[] = $this->drawCard();
@@ -95,27 +95,34 @@ class Blackjack
                     return;
                 }
             } else if ($input == 2) {
+                $dealerValue = $this->calculateHandValue($this->dealerHand);
+                $playerValue = $this->calculateHandValue($this->playerHand);
+                while ($dealerValue < 17) {
+                    $this->dealerHand[] = $this->drawCard();
+                }
+                echo "딜러의 카드: " . $this->getCardString($this->dealerHand) . "\n";
+                if ($dealerValue > 21) {
+                    echo "딜러가 21점을 초과하여 패배했습니다. 축하합니다!\n";
+                    return;
+                }
+                if ($playerValue == $dealerValue) {
+                    echo "무승부입니다.\n";
+                    return;
+                } else if ($playerValue > $dealerValue) {
+                    echo "축하합니다. 이겼습니다!\n";
+                    return;
+                } else {
+                    echo "딜러의 승리입니다. 다시 도전하세요.\n";
+                    return;
+                }
+            } else if ($input == 0) {
                 break;
-            }
-        }
-        $dealerValue = $this->calculateHandValue($this->dealerHand);
-        while ($dealerValue < 17) {
-            $this->dealerHand[] = $this->drawCard();
-            $dealerValue = $this->calculateHandValue($this->dealerHand);
-        }
-        echo "딜러의 카드: " . $this->getHandString($this->dealerHand) . "\n";
-        if ($dealerValue > 21) {
-            echo "딜러 버스트! 당신 승리!\n";
-        } else {
-            $playerValue = $this->calculateHandValue($this->playerHand);
-            if ($playerValue > $dealerValue) {
-                echo "당신 승리!\n";
-            } else if ($playerValue < $dealerValue) {
-                echo "당신 패배!\n";
+                
             } else {
-                echo "무승부!\n";
+                echo "잘못된 입력입니다. 다시 입력해주세요.\n";
             }
         }
+        
     }
     public function isGameOver()
     {
@@ -131,31 +138,5 @@ class Blackjack
     // start the game
     $game->play();
 
-    // continue playing until the game is over
-    while (!$game->isGameOver()) {
-        // ask the player to hit or stand
-        echo "Hit(1) or Stand(2)? ";
-        $input = intval(trim(fgets(STDIN)));
-        if ($input == 1) {
-            $game->hit();
-            echo "Your cards: " . $game->getPlayerHandString() . "\n";
-        } elseif ($input == 2) {
-            $game->stand();
-            break;
-        }
-    }
-
-    // show the dealer's hand
-    echo "Dealer's cards: " . $game->getDealerHandString() . "\n";
-
-    // determine the winner of the game
-    $winner = $game->getWinner();
-    if ($winner === null) {
-        echo "The game is a tie.\n";
-    } elseif ($winner === 'player') {
-        echo "You win!\n";
-    } else {
-        echo "Dealer wins!\n";
-    }
 
 ?>

@@ -123,9 +123,11 @@ function playBlackjack()
     $dealerHand[] = drawCard($deck);
     $playerTotal = calculateHandValue($playerHand);
     $dealerTotal = calculateHandValue($dealerHand, true);
-    echo "딜러의 카드: " . getCardString($dealerHand[0]) . "\n";
-    echo "플레이어의 카드: " . getHandString($playerHand) . "\n";
+    
     while (true) {
+        echo "딜러의 카드 중 한장 : " . getCardString($dealerHand[0]) . "\n";
+        echo "플레이어의 카드: " . getHandString($playerHand) . "\n";
+        echo "한장더: 1, 결과보기: 2, 게임종료 0";
         $input = fscanf(STDIN, "%d\n", $input); 
         if ($input == 1) {
             $playerHand[] = drawCard($deck);
@@ -167,6 +169,6 @@ function playBlackjack()
 }
 
 
-
+playBlackjack();
 
 ?>
