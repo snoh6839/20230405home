@@ -81,7 +81,7 @@ class Blackjack
     }
 
     public function play()
-    {
+    {   
         echo "딜러의 카드 중 하나만 오픈: " . $this->getCardString($this->dealerHand[0]) . "\n";
         echo "당신의 카드: " . $this->getHandString($this->playerHand) . "\n";
         while (true) {
