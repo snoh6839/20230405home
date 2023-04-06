@@ -84,7 +84,9 @@ function dealerDrawCard(&$deck, &$dealerHand) {
 }
 
 // 게임 실행
-
+$input = NULL;
+while ( !($input === 0) ){
+echo "\n -----New Game!------ \n";
 $deck = createDeck(); // 카드 덱 생성
 $userHand = array(); // 유저 카드 핸드 초기화
 $dealerHand = array(); // 딜러 카드 핸드 초기화
@@ -96,7 +98,8 @@ userDrawCard($deck, $userHand);
 dealerDrawCard($deck, $dealerHand);
 
 while (true) {
-    echo "카드를 더 받으시겠습니까? (1: Yes, 2: No, 0: Quit) ";
+    
+    echo "카드를 더 받으시겠습니까? (1: Yes, 2: No, 0: Quit) \n";
     fscanf(STDIN, "%d", $input);
     echo "\n";
     if ($input === 0) {
@@ -150,4 +153,5 @@ while (true) {
     } else {
         echo "잘못된 입력입니다. 다시 입력해주세요";
     }
+}
 }
