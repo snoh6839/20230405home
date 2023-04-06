@@ -106,7 +106,6 @@ while (true) {
         $userValue = calculateHandValue($userHand);
         if ($userValue > 21) {
             echo "유저 패배! 카드의 합이 21을 초과했습니다.\n";
-            echo "딜러 카드 합 : " . $dealerValue . " 유저 카드 합 : " . $userValue;
             break;
         }
     } else if ($input === 2) {
